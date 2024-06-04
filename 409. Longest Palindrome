@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int longestPalindrome(string s) {
+        unordered_map<char,int> mp;
+        int sum=0;
+        int n=s.size();
+        if(n==1)
+            return 1;
+        for(int i=0 ; i<n ; i++)
+        {
+            mp[s[i]]++;
+        }
+        bool f=false;
+        for(auto i:mp)
+        {
+            if(i.second%2==0)
+            {
+                sum+=i.second;
+            }
+            else
+            {
+                sum+=i.second-1;
+                f=true;
+            }
+        }
+
+        return f? sum :sum+1;
+    }
+};
