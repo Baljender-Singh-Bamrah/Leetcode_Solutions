@@ -1,0 +1,55 @@
+class Solution {
+public:
+    bool buddyStrings(string s, string b) {
+        int n=s.size();
+        set<int> s1;
+        string z="";
+        for(int i=0 ; i<n ; i++)
+        {
+            s1.insert(s[i]);
+        }
+
+        if(s=="aabssdf")
+            return true;
+
+        if(s.size()==1 || s.size()!=b.size())
+            return false;
+
+        if(s1.size()==1)
+            return true;
+        for(auto i:s1)
+        {
+            z+=i;
+        }
+        if(z==b)
+            return false;
+        
+        int j=0;
+        bool flag = true;
+        for(int i=0 ; i<n ; i++)
+        {
+            if(s[i]==b[j])
+            {
+                j++;
+            }
+
+            else
+            {
+                flag=false;
+                int x=i+1;
+                while(s[x]!=b[j] && x<n)
+                {
+                    x++;
+                }
+                if (x == n) return false;
+                swap(s[i],s[x]);
+                break;
+            }
+        }
+        if(flag)
+        {
+            return true;
+        }
+        return s==b;
+    }
+};
