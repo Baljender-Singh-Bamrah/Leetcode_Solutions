@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<int> sortArrayByParity(vector<int>& nums) {
+        vector<int> odd,even,res;
+
+        for(int i=0 ; i<nums.size() ; i++)
+        {
+            if(nums[i]%2==0)
+            {
+                even.push_back(nums[i]);
+            }
+
+            else
+            {
+                odd.push_back(nums[i]);
+            }
+        }
+
+        for(auto it:even)
+        {
+            res.push_back(it);
+        }
+
+        for(auto it:odd)
+        {
+            res.push_back(it);
+        }                
+
+        return res;
+    }
+};
