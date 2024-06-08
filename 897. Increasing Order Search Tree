@@ -26,11 +26,10 @@ public:
 
         TreeNode *head=new TreeNode();
         TreeNode *temp=head;
-        head->left=NULL;
+
         for(auto i:in)
         {
             TreeNode *c=new TreeNode(i);
-            c->left=NULL;
             temp->right=c;
             temp=temp->right;
         }
