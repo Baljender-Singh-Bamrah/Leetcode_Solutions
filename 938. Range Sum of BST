@@ -1,0 +1,111 @@
+--> Approach 1 :
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+
+    void inorder(TreeNode* root,int &sum ,int low, int high)
+    {
+        if(root)
+        {
+            inorder(root->left,sum,low,high);
+            if(root->val>=low && root->val<=high)
+                sum+=root->val;
+            inorder(root->right,sum,low,high);
+        }
+    }
+
+    int rangeSumBST(TreeNode* root, int low, int high) {
+        int sum=0;
+        inorder(root,sum,low,high);
+         
+        return sum;
+    }
+};
+
+--> Approach 2 :
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+
+    void inorder(TreeNode* root,vector<int>& in)
+    {
+        if(root)
+        {
+            inorder(root->left,in);
+            in.push_back(root->val);
+            inorder(root->right,in);
+        }
+    }
+
+    int rangeSumBST(TreeNode* root, int low, int high) {
+        vector<int> in;
+        inorder(root,in);
+        int sum=0;
+        for(int i=0 ; i<in.size() ; i++)
+        {
+            if(in[i]>high)
+                break;
+
+            if(in[i]>=low)
+                sum+=in[i];
+        }    
+        return sum;
+    }
+};
+
+--> Aproach  3:
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+
+    void inorder(TreeNode* root,vector<int>& in ,int low, int high)
+    {
+        if(root)
+        {
+            inorder(root->left,in,low,high);
+            if(root->val>=low && root->val<=high)
+                in.push_back(root->val);
+            inorder(root->right,in,low,high);
+        }
+    }
+
+    int rangeSumBST(TreeNode* root, int low, int high) {
+        vector<int> in;
+        inorder(root,in,low,high);
+         
+        return accumulate(in.begin(), in.end(), 0);;
+    }
+};
