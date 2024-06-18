@@ -1,3 +1,30 @@
+========================================================Aproach-1=============================================================
+
+class Solution {
+public:
+    int maxProfitAssignment(vector<int>& d, vector<int>& p, vector<int>& w) {
+        int x=0;
+        vector<pair<int,int>> job;
+        for(int i=0 ; i<d.size() ; i++)
+        {
+            job.push_back({d[i],p[i]});
+        }
+        sort(job.begin(),job.end());
+        for(int i=0 ; i<w.size() ; i++)
+        {
+            int j=0,sum=0;
+            while(j<p.size() && w[i]>=job[j].first )
+            {
+                sum=max(sum,job[j].second);
+                j++;
+            }
+            x+=sum;
+        }
+        return x;
+    }
+};
+
+========================================================Aproach-2=============================================================
 class Solution {
 public:
     int maxProfitAssignment(vector<int>& difficulty, vector<int>& profit, vector<int>& worker) {
