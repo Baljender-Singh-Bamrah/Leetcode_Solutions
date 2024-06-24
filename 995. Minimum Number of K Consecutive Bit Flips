@@ -1,0 +1,74 @@
+Approach 1 : TLE(Time Limit Exceed) !!!
+
+class Solution {
+public:
+    int minKBitFlips(vector<int>& nums, int k) {
+        int n=nums.size();
+        int count=0;
+        int j;
+        bool flag=true;
+        for(int i=0 ; i<=n-k ; i++)
+        {
+            flag=true;
+            int x;
+            if(nums[i]!=1){
+            for(j=i ; j<i+k ; j++){
+                if(nums[j]==0){
+                    nums[j]=1;
+                }
+                else{
+                    nums[j]=0;
+                    flag=false;
+                }
+            }
+            count++;
+            if(j<n-1 && nums[j]==1 && flag)
+            {
+                i=j;
+                while(nums[i+1]!=0 && i<n-k){
+                    i++;
+                }
+                i--;
+            }
+        }
+        }
+        for(auto it:nums){
+            if(it==0){
+                return -1;
+            }
+        }
+        return count;
+    }
+};
+
+
+Approach 2 : 
+
+class Solution {
+public:
+    int minKBitFlips(vector<int>& nums, int k) {
+        int n = nums.size();
+        int result = 0;
+        int flips = 0;
+        vector<int> isFlipped(n, 0);
+
+        for (int i = 0; i < n; ++i)
+        {
+            if (i >= k)
+                flips ^= isFlipped[i - k];
+
+            if ((nums[i] + flips) % 2 == 0)
+            {
+                if (i + k > n) return -1;
+
+                isFlipped[i] = 1;
+
+                flips ^= 1;
+
+                ++result;
+            }
+        }
+
+        return result;
+    }
+};
