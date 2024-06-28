@@ -16,3 +16,17 @@ public:
         return ans;
     }
 };
+
+Approach 2 : Space Complexity - O(1) , Time Complexity - O(1)
+
+class Solution {
+public:
+    int getDecimalValue(ListNode* head) {
+         int val = 0;
+        while (head){
+            val = 2 * val + head->val;
+            head = head->next;
+        }
+        return val;
+    }
+};
