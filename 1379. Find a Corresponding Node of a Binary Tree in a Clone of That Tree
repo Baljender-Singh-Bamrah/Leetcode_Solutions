@@ -1,0 +1,21 @@
+class Solution {
+public:
+    void preorder(TreeNode *head,TreeNode *t ,TreeNode *&ans)
+    {
+        if(head)
+        {
+            if(head->val==t->val)
+            {
+                ans=head;
+                return;
+            }
+            preorder(head->left,t,ans);
+            preorder(head->right,t,ans);
+        }
+    }
+    TreeNode* getTargetCopy(TreeNode* original, TreeNode* cloned, TreeNode* target) {
+        TreeNode* ans;
+        preorder(cloned,target,ans);
+        return ans;
+    }
+};
