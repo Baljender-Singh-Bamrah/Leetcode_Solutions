@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int passThePillow(int n, int time) {
+        int count=1,x=1;
+        while(time--)
+        {
+            if(count>=n)
+            {
+                x=-1;
+            }
+            if(count==1)
+            {
+                x=1;
+            }
+            count+=x;
+        }
+        return count;
+    }
+};
