@@ -1,0 +1,35 @@
+class Solution {
+public:
+    string reformat(string s) {
+
+        vector<char> n, c;
+        for (auto it : s) {
+            if (it >= '0' && it <= '9') {
+                n.push_back(it);
+            } else {
+                c.push_back(it);
+            }
+        }
+        int x = n.size(), l = c.size();
+        if (abs(x - l) > 1) {
+            return "";
+        }
+        string ans = "";
+        if (x >= l) {
+            for (int i = 0; i < l; i++) {
+                ans += n[i];
+                ans += c[i];
+            }
+            if (x > l)
+                ans += n[x - 1];
+        } else {
+            for (int i = 0; i < x; i++) {
+                ans += c[i];
+                ans += n[i];
+            }
+            ans += c[l - 1];
+        }
+
+        return ans;
+    }
+};
