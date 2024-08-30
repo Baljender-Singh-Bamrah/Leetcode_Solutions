@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int maxNumberOfBalloons(string text) {
+        int b[5]={0,0,0,0,0};
+        for(auto it : text){
+            if(it=='b'){
+                b[0]++;
+            }
+            else if(it=='a')
+            {
+                b[1]++;
+            }
+            else if(it=='l'){
+                b[2]++;
+            }
+            else if(it=='o'){
+                b[3]++;
+            }
+
+            else if(it=='n'){
+                b[4]++;
+            }
+        }
+        b[2]/=2;
+        b[3]/=2;
+        int x=INT_MAX;
+        int sum=0;
+        for(auto it:b)
+        {
+            x=min(x,it);
+            sum+=it;
+        }
+        
+        return (sum/5)>x?x:sum/5;
+    }
+};
