@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int maxArea(vector<int>& h) {
+        int ma=INT_MIN;
+        int left=0 , right=h.size()-1;
+        while(left<right)
+        {
+            int x=0;
+            
+            if(h[left]<h[right]){
+                x=h[left]*(right-left);
+                left++;
+            }
+            else{
+                x=h[right]*(right-left);
+                right--;
+            }
+            ma=max(ma,x);
+        }
+        return ma;
+    }
+};
