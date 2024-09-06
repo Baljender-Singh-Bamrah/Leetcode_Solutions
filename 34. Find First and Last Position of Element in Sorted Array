@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int n=nums.size();
+        int l=0,r=n-1;   
+        while(l<=r){
+            if(nums[l]!=target)l++;
+            else{
+                while(nums[r]!=target)
+                    r--;  
+                return {l,r};  
+            }
+            if(nums[r]!=target)r--;
+            else{
+                while(nums[r]!=target)
+                    return {l,r};    
+            }
+        }
+        return {-1,-1};
+    }
+};
