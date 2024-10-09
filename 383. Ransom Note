@@ -1,0 +1,21 @@
+class Solution {
+public:
+    bool canConstruct(string r, string m) {
+        int a[26]={0} , b[26]={0};
+
+        for(auto it:r){
+            a[it-'a']++;
+        }
+        
+        for(auto it:m){
+            b[it-'a']++;
+        }
+
+        for(int i=0 ; i<26 ; i++){
+            if(a[i]>b[i])
+                return false;
+        }
+
+        return true;
+    }
+};
