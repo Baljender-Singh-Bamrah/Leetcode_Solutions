@@ -1,0 +1,21 @@
+class Solution {
+public:
+    long long minimumSteps(string s) {
+        int l=0 ,r=s.size()-1;
+        long long int x=0;
+        while(l<=r){
+            if(s[l]=='1'){
+                while(r>=0 && s[r]!='0'){
+                    r--;
+                }
+                if(r<l){
+                    break;
+                }
+                swap(s[l],s[r--]);
+                x+=(r-l+1);
+            }
+            l++;
+        }
+        return x;
+    }
+};
