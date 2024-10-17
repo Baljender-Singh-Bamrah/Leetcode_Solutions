@@ -1,0 +1,64 @@
+Approach 1 :-
+
+class Solution {
+public:
+    int maximumSwap(int num) {
+        int result = 0;
+
+        string st = to_string(num);
+        priority_queue<int> pq;
+
+        for(auto it : st) {
+            pq.push(it);
+        }
+
+        for(int i=0;i<st.size();i++) {
+            if(pq.top() != st[i]) {
+                int val = pq.top();
+
+                int idx = 0;
+                for(int j=st.size(); j>=i ;j--){
+                    if(st[j]==val){
+                        idx=j;
+                        break;
+                    }
+                }
+                swap(st[i] , st[idx]);
+                break;
+            }
+            else {
+                pq.pop();
+            }
+        }
+
+        return stoi(st);
+    }
+};
+
+
+Approach 2 :-
+
+class Solution {
+public:
+    int maximumSwap(int num) {
+        int maxIndex = -1, swap1 = -1, swap2 = -1;
+        string nums = to_string(num);
+        int n = nums.size();
+
+        for (int i = n - 1; i >= 0; i--) {
+            if (maxIndex == -1 || nums[i] > nums[maxIndex]) {
+                maxIndex = i;
+            } 
+            else if (nums[i] < nums[maxIndex]) {
+                swap1 = i;
+                swap2 = maxIndex;
+            }
+        }
+
+        if (swap1 != -1 && swap2 != -1) {
+            swap(nums[swap1], nums[swap2]);
+        }
+
+        return stoi(nums);
+    }
+};
