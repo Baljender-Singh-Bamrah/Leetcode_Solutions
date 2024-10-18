@@ -1,0 +1,20 @@
+class Solution {
+    int n;
+    int or_val = 0;
+    int ans = 0;
+    void solve(int i,vector<int> &nums,int res,int check){
+        if(res==or_val && check==1) ans++;
+        if(i>=n){
+            return;
+        }
+        solve(i+1,nums,res | nums[i],1);
+        solve(i+1,nums,res,0);
+    }
+public:
+    int countMaxOrSubsets(vector<int>& nums) {
+        n = nums.size();
+        for(auto it:nums) or_val = or_val | it;
+        solve(0,nums,0,0);
+        return ans;
+    }
+};
