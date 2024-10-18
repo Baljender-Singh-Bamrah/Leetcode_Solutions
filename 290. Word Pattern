@@ -1,22 +1,29 @@
 class Solution {
 public:
-    bool isAnagram(string s, string t) {
-        int count[26] = {0};
-        
-        for (char x : s) {
-            count[x - 'a']++;
-        }
-
-        for (char x : t) {
-            count[x - 'a']--;
-        }
-
-        for (int val : count) {
-            if (val != 0) {
+    bool wordPattern(string pattern, string s) {
+        unordered_map<char,string> mp ;
+        unordered_map<string,char> mp1;
+        stringstream ss(s);
+        string temp;
+        int i=0;
+        cout<<pattern.size();
+        while(ss>> temp){
+            if(i>=pattern.size()){
                 return false;
             }
+            if(mp.find(pattern[i])==mp.end()){
+                mp[pattern[i]]=temp;
+                if(mp1.find(temp)!=mp1.end()) return false;
+                mp1[temp]=s[i];
+            }
+            else if(mp[pattern[i]]!=temp){
+                return false;
+            }
+            i++;
         }
-        
+        if(i<pattern.size()){
+            return false;
+        }
         return true;
     }
 };
