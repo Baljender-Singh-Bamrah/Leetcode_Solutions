@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int maxScore(string s) {
+        int n=s.size();
+        vector<int> zero(n,0), one(n,0);
+        int temp=0;
+        for(int i=0 ; i<n ; i++){
+            zero[i]= s[i]=='0'?++temp:temp;
+        }
+        temp=0;
+        for(int i=n-1 ; i>=0 ; i--){
+
+            one[i]= s[i]=='1'?++temp:temp;
+        }
+        int msum=0;
+        for(int i=0 ; i<n-1 ; i++) {
+            msum=max(msum,zero[i]+one[i+1]);
+        }
+
+        return msum;
+    }
+};
