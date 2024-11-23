@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        stack<long>st;
+        for(const auto &s:tokens){
+            if(s=="*" or s=="-" or s=="+" or s=="/"){
+                long x=st.top();
+                st.pop();
+                long y=st.top();
+                st.pop();
+                if(s=="*") st.push(x*y);
+                if(s=="+") st.push(x+y);
+                if(s=="-") st.push(y-x);
+                if(s=="/") st.push(y/x);
+            }
+            else st.push(stoi(s));
+        }
+        return st.top();
+    }
+};
