@@ -1,0 +1,43 @@
+class Solution {
+public:
+    vector<vector<char>> rotateTheBox(vector<vector<char>>& box) {
+        vector<vector<char>> res(box[0].size() , vector<char>(box.size()));
+        int row=box[0].size() , col = box.size();
+        for(int i=0 ; i<box.size() ; i++) {
+            for(int j=0 ; j<box[0].size() ; j++) {
+                res[j][i] = box[i][j];
+            }
+        }
+
+        for(int i = 0 ; i<col ; i++) {
+            int cnt=0;
+            for(int j= 0; j<row ; j++) {
+                if(res[j][i]=='#'){
+                    res[j][i]='.';
+                    cnt++;
+                }
+
+                else if(res[j][i]=='*' && cnt>0) {
+                    int l=j-1;
+                    while(cnt>0 ) {
+                        res[l--][i] = '#';
+                        cnt--;
+                    }
+                }
+            }
+
+            if(cnt) {
+                int l=row-1;
+                while(cnt--) {
+                        res[l--][i] = '#';
+                    }
+            }
+        }
+
+        for(auto &it:res) {
+            reverse(it.begin() , it.end());
+        }
+
+        return res;
+    }
+};
