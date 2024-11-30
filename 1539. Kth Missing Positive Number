@@ -18,7 +18,7 @@ public:
             else high = mid-1;
 
         }
-        
+    
         if(high < 0) return k;
         return k+high+1;
     }
