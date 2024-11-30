@@ -1,0 +1,10 @@
+class Solution {
+public:
+    string restoreString(string s, vector<int>& in) {
+        string t=s;
+        for(int i=0;i<in.size();i++){
+            s[in[i]]=t[i];
+        }
+        return s;
+    }
+};
