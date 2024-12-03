@@ -1,0 +1,18 @@
+class Solution {
+public:
+    string addSpaces(string s, vector<int>& spaces) {
+        string ans="";
+        int cnt=0 , i=0;
+        for(auto it : s) {
+            if(i<spaces.size() && cnt==spaces[i]) {
+                ans+=' ';
+                i++;
+            }
+
+            ans+=it;
+            cnt++;
+        }
+
+        return ans;
+    }
+};
