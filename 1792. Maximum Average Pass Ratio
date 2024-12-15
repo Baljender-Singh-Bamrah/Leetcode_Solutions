@@ -1,0 +1,42 @@
+class Solution {
+public:
+    double maxAverageRatio(vector<vector<int>>& classes, int extraStudents) {
+        // Priority queue to store the classes with the highest gain in pass ratio when an extra student is added.
+        // The priority is based on the decrease in gain, so we use a max-heap.
+        priority_queue<pair<double, int>> pq;
+
+        // Calculate the initial gain for each class and add to the priority queue
+        for (int i = 0; i < classes.size(); i++) {
+            int pass = classes[i][0];
+            int total = classes[i][1];
+            double currentRatio = (double)pass / total;
+            double gain = ((double)(pass + 1) / (total + 1)) - currentRatio;
+            pq.push({gain, i});
+        }
+
+        // Allocate the extra students to the classes
+        while (extraStudents-- > 0) {
+            auto [gain, idx] = pq.top();
+            pq.pop();
+
+            // Update the selected class with one additional student
+            classes[idx][0]++;
+            classes[idx][1]++;
+
+            // Recalculate the gain and re-add to the priority queue
+            int pass = classes[idx][0];
+            int total = classes[idx][1];
+            double currentRatio = (double)pass / total;
+            double newGain = ((double)(pass + 1) / (total + 1)) - currentRatio;
+            pq.push({newGain, idx});
+        }
+
+        // Calculate the final average pass ratio
+        double totalRatio = 0.0;
+        for (const auto& cls : classes) {
+            totalRatio += (double)cls[0] / cls[1];
+        }
+
+        return totalRatio / classes.size();
+    }
+};
