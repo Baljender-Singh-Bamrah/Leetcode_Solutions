@@ -16,3 +16,43 @@ public:
         return ans;
     }
 };
+
+Approach 2 : Using PQ
+
+class Solution {
+public:
+    int maximumSum(vector<int>& nums){
+        if(nums.size()==1) return -1;
+
+        unordered_map<int,priority_queue<int>>mp;
+        int maxSum=-1;
+
+        for(auto &num :nums){
+            int sum=0,x=num;
+
+            while(x){
+                sum+=(x%10);
+                x/=10;
+            }
+            
+            mp[sum].push(num);
+        }
+
+        for(auto &it : mp){
+            auto &minHeap=it.second;
+
+            if(minHeap.size()>=2){
+                int currSum=0;
+                int n=2;
+                while(n--){
+                    currSum+=minHeap.top();
+                    minHeap.pop();
+                }
+
+                maxSum=max(maxSum,currSum);
+            }
+        }
+
+        return maxSum;
+    }
+};
