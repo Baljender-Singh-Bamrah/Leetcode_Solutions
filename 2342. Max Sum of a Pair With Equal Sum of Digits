@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int maximumSum(const vector<int>& nums) {
+        vector<int> mp(82);
+        int ans = -1;
+        for (auto n : nums) {
+            int n1 = n, sum = 0;
+            while (n1 > 0) {
+                sum += n1 % 10;
+                n1 /= 10;
+            }
+            if (mp[sum])
+                ans = max(ans, n + mp[sum]);
+            mp[sum] = max(mp[sum], n);
+        }
+        return ans;
+    }
+};
