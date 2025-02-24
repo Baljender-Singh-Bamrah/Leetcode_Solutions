@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int bobvisit(vector<vector<int>>& graph,int& bob,int root,int parent,vector<int>& distfromBob){
+        if(root==bob)return distfromBob[root] = 0;
+        for(int next:graph[root]){
+            if(next!=parent)distfromBob[root] = min(distfromBob[root],1+bobvisit(graph,bob,next,root,distfromBob));
+        }
+        return distfromBob[root];
+    }
+    void solve(vector<vector<int>>& graph,int root,int dist,int parent,int profit,vector<int>& amount,vector<int>& distfromBob,int& ans){
+        if(dist<distfromBob[root])profit+=amount[root];
+        else if(dist==distfromBob[root])profit+=(amount[root]/2);
+        if(graph[root].size()==1 && root)ans = max(ans,profit);
+        for(int next:graph[root]){
+            if(next!=parent)solve(graph,next,dist+1,root,profit,amount,distfromBob,ans);
+        }
+    }
+    int mostProfitablePath(vector<vector<int>>& edges, int bob, vector<int>& amount) {
+        vector<vector<int>> graph(edges.size()+1);
+        for(auto& temp:edges){
+            graph[temp[0]].push_back(temp[1]);
+            graph[temp[1]].push_back(temp[0]);
+        }
+        vector<int> distfromBob(edges.size()+1,1e8);
+        bobvisit(graph,bob,0,-1,distfromBob);
+        int ans=INT_MIN;
+        solve(graph,0,0,-1,0,amount,distfromBob,ans);
+        return ans;
+    }
+};
