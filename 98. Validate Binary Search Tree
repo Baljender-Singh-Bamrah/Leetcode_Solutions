@@ -1,0 +1,15 @@
+class Solution {
+    bool solve(TreeNode *root, long minval, long maxval) {
+        if(!root) return true;
+
+        if (root->val >= maxval || root->val <= minval) {
+            return false;
+        }
+        
+        return solve(root->left, minval, root->val) && solve(root->right, root->val, maxval);
+    }
+public:
+    bool isValidBST(TreeNode* root) {
+        return solve(root, LONG_MIN, LONG_MAX);
+    }
+};
