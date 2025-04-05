@@ -1,0 +1,19 @@
+class Solution {
+public:
+
+    int solve(vector<int>& nums,int idx,int n,int currXor)
+    {
+        if(idx>=n)
+        {
+            return currXor;
+        }
+        int left=solve(nums,idx+1,n,currXor^nums[idx]);
+        int right=solve(nums,idx+1,n,currXor);
+        return left+right;
+    }
+
+    int subsetXORSum(vector<int>& nums) {
+        int n=nums.size();
+        return solve(nums,0,n,0);
+    }
+};
