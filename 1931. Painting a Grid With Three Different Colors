@@ -1,0 +1,129 @@
+class Solution {
+public:
+    /*
+        Intuition and Algorithm:
+
+        We are asked to paint an m x n grid such that:
+        - Each cell can be painted with one of 3 colors.
+        - No two adjacent cells (horizontally or vertically) can have the same color.
+
+        This is a classic combinatorial problem with dynamic programming using state compression.
+
+        Key Observations:
+        1. For each column, the vertical adjacency constraint means no two adjacent rows
+           in the column can have the same color.
+        2. For adjacent columns, the same row in column j and j+1 must have different colors.
+        3. We can precompute all valid column states (i.e., all row colorings for a single
+           column that satisfy the vertical rule), and store them.
+        4. For every valid column coloring, we store which other valid column colorings it
+           can transition to (i.e., satisfy horizontal adjacency rule).
+        5. We then use DP over columns: for each column, and for each valid column state,
+           we keep track of the number of ways to reach that state.
+
+        Time Complexity:
+            - O(n * S^2), where S is number of valid column colorings (at most 3^m).
+              In our case, since m <= 5, S is small (~12 for m=5).
+        Space Complexity:
+            - O(S), where S is the number of valid column colorings, since we alternate
+              between previous and current column states.
+    */
+
+    int colorTheGrid(int m, int n) {
+        // Generate all valid column colorings (no vertical adjacent same colors)
+        vector<vector<int>> validColumns;
+        vector<int> current;
+        generateColumnColorings(0, m, current, validColumns);
+
+        // Map from valid column state to all valid next column states
+        unordered_map<int, vector<int>> compatibleStates;
+        int stateCount = validColumns.size();
+
+        for (int i = 0; i < stateCount; ++i) {
+            for (int j = 0; j < stateCount; ++j) {
+                if (areCompatible(validColumns[i], validColumns[j])) {
+                    compatibleStates[i].emplace_back(j);
+                }
+            }
+        }
+
+        // Initialize dp for the first column
+        vector<long long> prev(stateCount, 1);
+        const int MOD = 1e9 + 7;
+
+        // DP over columns
+        for (int col = 1; col < n; ++col) {
+            vector<long long> curr(stateCount, 0);
+
+            for (int i = 0; i < stateCount; ++i) {
+                // For each valid next state
+                for (int nextState : compatibleStates[i]) {
+                    // Update count with valid transition
+                    curr[nextState] = (curr[nextState] + prev[i]) % MOD;
+                }
+            }
+
+            // Move to next column
+            prev = move(curr);
+        }
+
+        // Sum all final column possibilities
+        long long total = 0;
+        for (long long count : prev) {
+            total = (total + count) % MOD;
+        }
+
+        return static_cast<int>(total);
+    }
+
+private:
+    // Helper to generate all valid column colorings recursively
+    void generateColumnColorings(int row, int m, vector<int>& current,
+                                 vector<vector<int>>& result) {
+        if (row == m) {
+            result.emplace_back(current);
+            return;
+        }
+
+        for (int color = 0; color < 3; ++color) {
+            // Skip if same as color above (violates vertical rule)
+            if (row > 0 and current[row - 1] == color) {
+                continue;
+            }
+
+            current.emplace_back(color);
+            generateColumnColorings(row + 1, m, current, result);
+            current.pop_back();
+        }
+    }
+
+    // Check if two column colorings are compatible (horizontal adjacency rule)
+    bool areCompatible(const vector<int>& col1, const vector<int>& col2) {
+        int rows = col1.size();
+        for (int i = 0; i < rows; ++i) {
+            if (col1[i] == col2[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
+
+/*
+    Dry Run:
+
+    Case: m = 1, n = 1
+    - Valid colors: [0], [1], [2] => total 3 ways
+
+    Case: m = 2, n = 1
+    - Valid columns: [0,1], [0,2], [1,0], [1,2], [2,0], [2,1] => total 6 ways
+
+    Case: m = 1, n = 2
+    - Valid columns: [0], [1], [2]
+    - Transitions: any two different values
+    => Total: 3 * 2 = 6
+
+    Case: m = 2, n = 2
+    - Valid columns: 6 total (as above)
+    - Transitions: check for horizontal compatibility
+    => DP size = 6
+*/
