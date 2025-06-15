@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> result;
+        for(auto it: nums1) {
+            auto at = find(nums2.begin(), nums2.end(), it);
+            int idx = distance(nums2.begin(), at);
+            int x = -1;
+            for(int i = idx+1 ; i<nums2.size() ; i++) {
+                if(nums2[i]>it) {
+                    x = nums2[i];
+                    break;
+                }
+            }
+            result.push_back(x);
+        }
+        return result;
+    }
+};
