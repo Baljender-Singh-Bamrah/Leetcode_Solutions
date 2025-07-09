@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int garbageCollection(vector<string>& garbage, vector<int>& travel) {
+        vector<bool> flag(3,false);
+        map<int,int> mp;
+        int cost = 0, n=garbage.size()-1;
+        for(int i=n ; i>=0; i--) {
+            int x = count(garbage[i].begin(), garbage[i].end(),'G');
+            if(!flag[0] && x && i>0) {
+                mp[0] = i-1;
+                flag[0] = true; 
+            }
+            cost += x ;
+            x = count(garbage[i].begin(), garbage[i].end(),'P');
+            if(!flag[1] && x && i>0) {
+                mp[1] = i-1;
+                flag[1] = true; 
+            }
+            cost += x;
+            x = count(garbage[i].begin(), garbage[i].end(),'M');
+            if(!flag[2] && x && i>0) {
+                mp[2] = i-1;
+                flag[2] = true; 
+            }
+            cost += x;
+        }
+
+        vector<int> time;
+        int t=0;
+        for(auto it: travel){
+            t+= it;
+            time.push_back(t);
+        }
+        for(int i=0 ; i<3 ; i++) {
+            if(flag[i] == true) {
+                cost += time[mp[i]];
+            }
+        }
+        return cost;
+    }
+};
