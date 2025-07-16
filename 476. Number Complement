@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int findComplement(int num) {
+        string ans;
+        while(num) {
+            ans = to_string(num%2)+ans;
+            num/=2; 
+        }
+        for(auto& it: ans) {
+            it = (it=='0')?'1':'0';
+        }
+        int sum = 0 , n = ans.size()-1, j=0;
+        for(int i=n ; i>=0 ; i--) {
+            sum+=((ans[i]-'0')*pow(2,j++));
+        }
+        return sum;
+    }
+};
