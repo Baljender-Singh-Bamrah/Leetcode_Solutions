@@ -1,0 +1,25 @@
+class Solution {
+    unordered_map<Node *, Node *> clone;
+
+  public:
+    Node *cloneGraph(Node *node)
+    {
+        if (!node)
+            return nullptr;
+
+        dfs(node);
+        return clone[node];
+    }
+
+    void dfs(Node *key)
+    {
+        Node *new_node = new Node(key->val);
+        clone[key] = new_node;
+        
+        for (auto node: key->neighbors) {
+            if (clone.find(node) == clone.end())
+                dfs(node);
+            new_node->neighbors.push_back(clone[node]);
+        }
+    }
+};
