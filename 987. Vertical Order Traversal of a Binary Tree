@@ -1,0 +1,26 @@
+class Solution {
+    void dfs(TreeNode *root, int row, int col, vector<tuple<int, int, int>> &v) {
+        if(!root) return ;
+        v.push_back({col, row , root->val});
+        dfs(root->left, row+1, col-1, v);
+        dfs(root->right, row+1, col+1, v);
+    }
+public:
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        vector<tuple<int, int, int>> v;
+        dfs(root, 0, 0, v);
+        sort(v.begin(), v.end());
+        vector<vector<int>> res;
+        map<int, vector<int>> colMap;
+
+        for (auto [col, row, val] : v) {
+            colMap[col].push_back(val);
+        }
+
+        for (auto& [col, vals] : colMap) {
+            res.push_back(vals);
+        }
+
+        return res;
+    }
+};
