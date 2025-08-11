@@ -1,26 +1,11 @@
 class Solution {
 public:
-    vector<int> productExceptSelf(vector<int>& nums) {
-        int p=1,c=0,in;
-        vector<int> v(nums.size(),0);
-        for(int i=0 ; i<nums.size() ; i++){
-            if(nums[i]==0){
-                c++;
-                if(c>1){
-                    return v;
-                }
-                in=i;
-                continue;
-            }
-            p*=nums[i];
+    bool canJump(vector<int>& nums) {
+        int maxReach = 0;
+        for (int i = 0; i < nums.size(); ++i) {
+            if (i > maxReach) return false;
+            maxReach = max(maxReach, i + nums[i]);
         }
-        if(c==1){
-            v[in]=p;
-            return v;
-        }
-        for(int i=0 ; i<nums.size() ; i++){
-            nums[i]=p/nums[i];
-        }
-        return nums;
+        return true;
     }
 };
