@@ -1,0 +1,11 @@
+class Solution {
+public:
+    int makeTheIntegerZero(int num1, int num2) {
+        for(long long i = 0;i<=60;i++){
+            long long val =1LL*num1 - (i*num2); 
+            if(val<0) continue; 
+            if(__builtin_popcountll(val)<=i && i<=val) return i; 
+        }
+        return -1;
+    }
+};
