@@ -1,0 +1,44 @@
+class Router {
+public:
+  map<vector<int>,int>duplicates;
+  unordered_map<int,vector<int>>timeStamps;
+  queue<vector<int>>q;
+  unordered_map<int,int>st;
+  int maxLimit = 0;
+    Router(int memoryLimit) {
+        maxLimit = memoryLimit;
+    }
+    
+    bool addPacket(int source, int destination, int timestamp) {
+        vector<int>packet = {source,destination,timestamp};
+        if(duplicates.count(packet))return false;
+        if(q.size() == maxLimit){
+            vector<int>res = q.front();
+            duplicates.erase(res);
+            st[res[1]]++;
+            q.pop();
+        }
+        q.push(packet);
+        timeStamps[packet[1]].push_back(packet[2]);
+        duplicates[packet]++;
+        return true;
+    }
+    
+    vector<int> forwardPacket() {
+        if(q.empty())return {};
+        vector<int>r = q.front();
+        q.pop();
+        st[r[1]]++;
+        duplicates.erase(r);
+        return r;
+    }
+    
+    int getCount(int destination, int startTime, int endTime) {
+        if(timeStamps.find(destination) == timeStamps.end())return 0;
+        auto& p = timeStamps[destination];
+        int temp = st[destination];
+        auto left = lower_bound(p.begin()+temp,p.end(),startTime);
+        auto right = upper_bound(p.begin()+temp,p.end(),endTime);
+        return int(right-left);
+    }
+};
