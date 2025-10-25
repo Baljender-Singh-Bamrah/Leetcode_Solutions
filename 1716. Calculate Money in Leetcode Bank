@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int totalMoney(int n) {
+        vector<int> days = {1, 3, 6, 10, 15, 21, 28};
+        
+        if(n<=7) {
+            return days[n-1];
+        }
+
+        int start = 1, total = 28, cnt = 1;
+        n-= 7;
+        while(n>0) {
+            if(n<=7) {
+                return total + (days[n-1] + cnt*n);
+            }
+            total += days[6] + cnt*7;
+            cnt++;
+            n-=7;
+        }
+
+        return 0;
+    }
+};
