@@ -1,4 +1,4 @@
-class Solution {
+7class Solution {
 public:
     int countPalindromicSubsequence(string s) {
         int result = 0;
